@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vérification des Véhicules</title>
+</head>
+<body>
+    <h1>Vérification des Véhicules</h1>
+    <form id="searchForm">
+        <label for="immatriculation">Immatriculation:</label>
+        <input type="text" id="immatriculation" name="immatriculation" required>
+        <button type="submit">Rechercher</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const immatriculation = document.getElementById('immatriculation').value;
+            const response = await fetch(`http://localhost:5000/vehicules/${immatriculation}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token  // Utiliser le token obtenu après l'authentification
+                }
+            });
+            const data = await response.json();
+            document.getElementById('result').innerText = JSON.stringify(data, null, 2);
+        });
+    </script>
+</body>
+</html>
